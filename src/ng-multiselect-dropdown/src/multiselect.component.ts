@@ -48,7 +48,8 @@ export class MultiSelectComponent implements ControlValueAccessor {
     noDataAvailablePlaceholderText: 'No data available',
     closeDropDownOnSelection: false,
     showSelectedItemsAtTop: false,
-    defaultOpen: false
+    defaultOpen: false,
+    ariaDeleteOptionName: "delete"
   };
 
   @Input()
