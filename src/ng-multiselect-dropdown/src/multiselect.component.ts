@@ -6,7 +6,9 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { ListItem, IDropdownSettings } from './multiselect.model';
@@ -26,6 +28,7 @@ const noop = () => {};
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiSelectComponent implements ControlValueAccessor {
+  @ViewChild("toggler") togglerButton: ElementRef;
   public _settings: IDropdownSettings;
   public _data: Array<ListItem> = [];
   public selectedItems: Array<ListItem> = [];
@@ -49,7 +52,8 @@ export class MultiSelectComponent implements ControlValueAccessor {
     closeDropDownOnSelection: false,
     showSelectedItemsAtTop: false,
     defaultOpen: false,
-    ariaDeleteOptionName: "delete"
+    // use a dot in the aria name to send a pause to screen readers when reads all selected options.
+    ariaDeleteOptionName: "delete."
   };
 
   @Input()
@@ -323,5 +327,10 @@ export class MultiSelectComponent implements ControlValueAccessor {
       this.onDeSelectAll.emit(this.emittedValue(this.selectedItems));
     }
     this.onChangeCallback(this.emittedValue(this.selectedItems));
+  }
+
+  escapeEvent(evt) {
+    this.toggleDropdown(evt);
+    this.togglerButton.nativeElement.focus();
   }
 }

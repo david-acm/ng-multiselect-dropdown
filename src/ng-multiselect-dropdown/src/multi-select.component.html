@@ -1,7 +1,8 @@
-<div tabindex="-1" (blur)="onTouched()" class="multiselect-dropdown" (clickOutside)="closeDropdown()" (keyup.esc)="toggleDropdown($event)">
+<div tabindex="-1" (blur)="onTouched()" class="multiselect-dropdown" (clickOutside)="closeDropdown()" (keyup.esc)="escapeEvent($event)">
   <div [class.disabled]="disabled">
-    <span  class="dropdown-btn" (click)="toggleDropdown($event)" (keyup.enter)="toggleDropdown($event)" (keyup.space)="toggleDropdown($event)"
-	role="button" tabindex="0" [attr.aria-expanded]="_settings.defaultOpen">
+    <span  class="dropdown-btn" #toggler
+    (click)="toggleDropdown($event)" (keyup.enter)="toggleDropdown($event)" (keyup.space)="toggleDropdown($event)"
+    role="button" tabindex="0" [attr.aria-expanded]="_settings.defaultOpen">
       <span *ngIf="selectedItems.length == 0">{{_placeholder}}</span>
       <span class="selected-item" *ngFor="let item of selectedItems;trackBy: trackByFn;let k = index" [hidden]="k > _settings.itemsShowLimit-1">
         {{item.text}}
